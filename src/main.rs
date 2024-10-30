@@ -7,6 +7,15 @@ use chrono::Local;
 
 const TODO_FILE: &str = "todo_list.json";
 
+/*
+1. I will add telegram bot feature's once i get idea 
+to list all files/doc from bot to get list in terminal..
+If u have idea/code that work's you can PR
+*/
+
+
+
+
 #[derive(Serialize, Deserialize, Debug)]
 struct Task {
     description: String,
@@ -63,8 +72,6 @@ fn list_tasks() {
     }
     println!("{}", "=".repeat(line_length));
 }
-
-
 
 fn complete_task(task_num: usize) {
     let mut tasks = load_tasks();
@@ -123,6 +130,14 @@ fn print_usage() {
     println!("  uncomp <task_num>        Unmark a completed task");
     println!("  clr                      Clear All Task's");
     println!("  help                     Display this help message");
+}
+// Actios menu
+enum Actions {
+    Add { description: String },
+    List,
+    Remove { task_num: usize },
+    Comp { task_num: usize },       
+    Uncomp { task_num: usize },     
 }
 
 fn main() {
