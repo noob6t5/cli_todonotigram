@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 use std::fs::File;
-use std::io::BufReader;
+use std::io::{self, BufReader};
 use std::path::Path;
 use std::env;
 use chrono::Local;
@@ -99,6 +99,19 @@ fn remove_task(task_num: usize) {
     }
 }
 
+// Clear all tasks with confirmation
+fn clear_all_tasks() {
+    println!("Are you sure you want to clear all tasks? (y/n): ");
+    let mut input = String::new();
+    io::stdin().read_line(&mut input).expect("Failed to read input");
+    
+    if input.trim().eq_ignore_ascii_case("y") {
+        save_tasks(&vec![]); // Save an empty list to clear all tasks
+        println!("All tasks have been cleared.");
+    } else {
+        println!("Clear action canceled.");
+    }
+}
 fn print_usage() {
     println!("CLI To-Do with Telegram bot integration\n");
     println!("Usage: todo <COMMAND> [OPTIONS]\n");
@@ -108,6 +121,7 @@ fn print_usage() {
     println!("  remove <task_num>        Remove a task");
     println!("  comp <task_num>          Mark a task as completed");
     println!("  uncomp <task_num>        Unmark a completed task");
+    println!("  clr                      Clear All Task's");
     println!("  help                     Display this help message");
 }
 
@@ -159,6 +173,7 @@ fn main() {
                 println!("Error: Invalid task number.");
             }
         }
+         "clr" => clear_all_tasks(),
         "help" => print_usage(),
         _ => {
             println!("Error: Unknown command.");
