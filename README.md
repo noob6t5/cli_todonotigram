@@ -6,7 +6,7 @@ I will add more features integrated with a Telegram bot for real-time task notif
 <img src="https://github.com/noob6t5/cli_todonotigram/blob/main/icon/icon.png" width="200" height="200" />
 
 # Insp
-I keep forgetting thing's like to scan ,to monitor & making changes in file directories . that's why this i created this . It might also help you wdireclty from termianl without any hassle.
+I keep forgetting thing's like to scan ,to monitor & making changes in file directories . that's why this i created this . It might also help you on staying updated  direclty from terminal without any hassle.
 
 
 #  Features
@@ -71,6 +71,12 @@ fi
 Save it Now `chmod +x ~/show_todo_once.sh` to make it executable.
 
 Then add this `~/show_todo_once.sh`   accodring to your shell in ~/.zshrc or ~/.bashrc.
+
+# For Bash
+`echo "~/show_todo_once.sh" >> ~/.bashrc`
+
+# For Zsh
+`echo "~/show_todo_once.sh" >> ~/.zshrc`
 
 ## 🎉 Future Enhancements
   Stay tuned for Telegram integration and more advanced features. Star the repo to stay updated!
