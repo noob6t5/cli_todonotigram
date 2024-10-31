@@ -1,20 +1,20 @@
 use serde::{Deserialize, Serialize};
-use std::fs::File;
+use std::fs::{File};
 use std::io::{self, BufReader};
-use std::path::Path;
+use std::path::{Path};
 use std::env;
 use chrono::Local;
+
 
 const TODO_FILE: &str = "todo_list.json";
 
 /*
-1. I will add telegram bot feature's once i get idea 
-to list all files/doc from bot to get list in terminal..
-If u have idea/code that work's you can PR
+1. I will add Telegram bot feature once I get the idea
+to list all files/doc from the bot to get a list in the terminal.
+If you have an idea/code that works, you can PR.
+
+2. YOu can Automate the step's to add this directly to shell.
 */
-
-
-
 
 #[derive(Serialize, Deserialize, Debug)]
 struct Task {
@@ -22,7 +22,7 @@ struct Task {
     completed: bool,
     date: String,
 }
-
+// For loading task's
 fn load_tasks() -> Vec<Task> {
     if Path::new(TODO_FILE).exists() {
         let file = File::open(TODO_FILE).expect("Error opening file.");
@@ -32,12 +32,12 @@ fn load_tasks() -> Vec<Task> {
         vec![]
     }
 }
-
+// For saving it to json
 fn save_tasks(tasks: &Vec<Task>) {
     let file = File::create(TODO_FILE).expect("Error creating file.");
     serde_json::to_writer_pretty(file, tasks).expect("Error writing JSON.");
 }
-
+// Fo r adding task's
 fn add_task(description: String) {
     let mut tasks = load_tasks();
     let current_date = Local::now().format("%Y-%m-%d %H:%M:%S").to_string();
@@ -49,7 +49,7 @@ fn add_task(description: String) {
     save_tasks(&tasks);
     println!("Task successfully added.");
 }
-
+// Listing from file's
 fn list_tasks() {
     let tasks = load_tasks();
     let header = "To-Do List";
@@ -72,7 +72,7 @@ fn list_tasks() {
     }
     println!("{}", "=".repeat(line_length));
 }
-
+// For Marking's
 fn complete_task(task_num: usize) {
     let mut tasks = load_tasks();
     if task_num > 0 && task_num <= tasks.len() {
@@ -94,7 +94,7 @@ fn uncomplete_task(task_num: usize) {
         println!("Invalid task number.");
     }
 }
-
+// For removing
 fn remove_task(task_num: usize) {
     let mut tasks = load_tasks();
     if task_num > 0 && task_num <= tasks.len() {
@@ -105,8 +105,7 @@ fn remove_task(task_num: usize) {
         println!("Invalid task number.");
     }
 }
-
-// Clear all tasks with confirmation
+// Clearing All
 fn clear_all_tasks() {
     println!("Are you sure you want to clear all tasks? (y/n): ");
     let mut input = String::new();
@@ -119,6 +118,7 @@ fn clear_all_tasks() {
         println!("Clear action canceled.");
     }
 }
+// Manual Usage 
 fn print_usage() {
     println!("CLI To-Do with Telegram bot integration\n");
     println!("Usage: todo <COMMAND> [OPTIONS]\n");
@@ -128,19 +128,13 @@ fn print_usage() {
     println!("  remove <task_num>        Remove a task");
     println!("  comp <task_num>          Mark a task as completed");
     println!("  uncomp <task_num>        Unmark a completed task");
-    println!("  clr                      Clear All Task's");
+    println!("  clr                      Clear all tasks");
     println!("  help                     Display this help message");
 }
-// Actios menu
-enum Actions {
-    Add { description: String },
-    List,
-    Remove { task_num: usize },
-    Comp { task_num: usize },       
-    Uncomp { task_num: usize },     
-}
 
+// Main Funciton's
 fn main() {
+
     let args: Vec<String> = env::args().collect();
 
     if args.len() < 2 {
@@ -149,6 +143,7 @@ fn main() {
     }
 
     match args[1].as_str() {
+       
         "add" => {
             if args.len() < 3 {
                 println!("Error: Missing description for new task.");
@@ -195,4 +190,5 @@ fn main() {
             print_usage();
         }
     }
+    
 }
